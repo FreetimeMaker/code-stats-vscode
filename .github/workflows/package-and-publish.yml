@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: vscode-extension
-          path: code-stats-vscode-*.vsix
+          path: code-stats-*.vsix
           if-no-files-found: error
 
       - name: Create version tag and GitHub release
@@ -63,7 +63,7 @@ jobs:
             }
 
             const assets = fs.readdirSync('.').filter(name =>
-              name.startsWith('code-stats-vscode-') && name.endsWith('.vsix')
+              name.startsWith('code-stats-') && name.endsWith('.vsix')
             );
             if (assets.length === 0) {
               throw new Error('No VSIX package found for the release.');
@@ -97,4 +97,4 @@ jobs:
 
       - name: Publish to VS Code Marketplace
         if: startsWith(github.ref, 'refs/tags/') || steps.release.outputs.created == 'true'
-        run: npx --yes @vscode/vsce publish --oidc --packagePath code-stats-vscode-*.vsix
+        run: npx --yes @vscode/vsce publish --oidc --packagePath code-stats-*.vsix

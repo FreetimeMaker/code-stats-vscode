@@ -9,7 +9,11 @@ on:
   pull_request:
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: package-and-publish-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   package-and-publish:
@@ -37,8 +41,61 @@ jobs:
           path: code-stats-vscode-*.vsix
           if-no-files-found: error
 
+      - name: Create version tag and GitHub release
+        id: release
+        if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('node:fs');
+            const { version } = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            const tag = `v${version}`;
+            const repo = context.repo;
+
+            try {
+              await github.rest.git.getRef({ ...repo, ref: `tags/${tag}` });
+              core.info(`Tag ${tag} already exists; skipping release.`);
+              core.setOutput('created', 'false');
+              return;
+            } catch (error) {
+              if (error.status !== 404) throw error;
+            }
+
+            const assets = fs.readdirSync('.').filter(name =>
+              name.startsWith('code-stats-vscode-') && name.endsWith('.vsix')
+            );
+            if (assets.length === 0) {
+              throw new Error('No VSIX package found for the release.');
+            }
+
+            const { data: release } = await github.rest.repos.createRelease({
+              ...repo,
+              tag_name: tag,
+              target_commitish: context.sha,
+              name: tag,
+              generate_release_notes: true,
+              draft: true,
+            });
+
+            for (const name of assets) {
+              await github.rest.repos.uploadReleaseAsset({
+                ...repo,
+                release_id: release.id,
+                name,
+                data: fs.readFileSync(name),
+                headers: { 'content-type': 'application/octet-stream' },
+              });
+            }
+
+            await github.rest.repos.updateRelease({
+              ...repo,
+              release_id: release.id,
+              draft: false,
+            });
+            core.setOutput('created', 'true');
+
       - name: Publish to Open VSX
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') || steps.release.outputs.created == 'true'
         env:
           OVSX_PAT: ${{ secrets.OPEN_VSX_TOKEN }}
         run: npx --yes ovsx publish code-stats-vscode-*.vsix

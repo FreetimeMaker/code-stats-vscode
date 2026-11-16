@@ -71,7 +71,7 @@
 		"@types/lodash.template": "^4.5.3",
 		"@types/node": "^26.6.6",
 		"@types/node-fetch": "^2.6.13",
-		"@types/vscode": "^1.146.0",
+		"@types/vscode": "^1",
 		"@vscode/test-web": "^0.0.81",
 		"esbuild": "^0.28.2",
 		"typescript": "^7.0.2",

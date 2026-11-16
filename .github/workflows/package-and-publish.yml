@@ -1,0 +1,43 @@
+name: Package and publish
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  package-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Package extension
+        run: npx --yes @vscode/vsce package
+
+      - name: Upload extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vscode-extension
+          path: code-stats-vscode-*.vsix
+          if-no-files-found: error
+
+      - name: Publish to Open VSX
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          OVSX_PAT: ${{ secrets.OPEN

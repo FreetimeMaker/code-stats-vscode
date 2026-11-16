@@ -1,0 +1,15 @@
+{
+	"include": ["src"],
+	"extends": "./node_modules/@dzeio/config/tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "out",
+		"lib": [
+			"es6"
+		],
+		"sourceMap": true,
+		"skipLibCheck": true
+	},
+	"exclude": [
+		".vscode-test*"
+	]
+}

@@ -26,7 +26,7 @@ This extension contributes the following settings:
 
 ### 1.0.0
 
-Initial release of code-stats-vscode
+Initial release of code-stats
 
 ### For more information
 

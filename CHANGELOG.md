@@ -1,9 +1,9 @@
 # Change Log
 
-All notable changes to the "code-stats-vscode" extension will be documented in this file.
+All notable changes to the "code-stats" extension will be documented in this file.
 
 ## [1.0.0] - 2026-11-16
 
 ### Added
 
-Initial release of code-stats-vscode
+Initial release of code-stats

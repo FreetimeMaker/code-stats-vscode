@@ -1,7 +1,7 @@
 {
-	"name": "code-stats",
-	"displayName": "Code::Stats",
-	"description": "Code::Stats package for Visual Studio Code",
+	"name": "code-stats-new",
+	"displayName": "Code::Stats for VS Code (New)",
+	"description": "New Code::Stats package for Visual Studio Code",
 	"version": "1.0.0",
 	"license": "GPL-3.0-only",
 	"publisher": "freetimemaker",

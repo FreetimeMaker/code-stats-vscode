@@ -66,15 +66,15 @@
 		"test:browser": "vscode-test-web --extensionDevelopmentPath=. ."
 	},
 	"devDependencies": {
-		"@dzeio/config": "^1",
+		"@dzeio/config": "^1.1.12",
 		"@esbuild-plugins/node-modules-polyfill": "^0.2.2",
-		"@types/lodash.template": "^4",
-		"@types/node": "^16",
-		"@types/node-fetch": "^2",
-		"@types/vscode": "^1",
+		"@types/lodash.template": "^4.5.3",
+		"@types/node": "^26.6.6",
+		"@types/node-fetch": "^2.6.13",
+		"@types/vscode": "^1.146.0",
 		"@vscode/test-web": "^0.0.81",
 		"esbuild": "^0.28.2",
-		"typescript": "^4",
+		"typescript": "^7.0.2",
 		"vscode-test": "^1"
 	},
 	"dependencies": {

@@ -4,7 +4,7 @@
 	"description": "Code::Stats package for Visual Studio Code",
 	"version": "1.0.0",
 	"license": "GPL-3.0-only",
-	"publisher": "Freetime Maker",
+	"publisher": "freetimemaker",
 	"icon": "logo.png",
 	"repository": {
 		"type": "github",
